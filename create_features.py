@@ -3,6 +3,8 @@ import numpy as np
 import ta  # Technical Analysis library
 import argparse
 import sys
+from statsmodels.tsa.seasonal import STL
+from scipy import stats
 
 def add_lags(df, col, lags=[1, 2, 4, 8]):
     """Adds lagged features for a given column."""
@@ -15,6 +17,10 @@ def add_rolling_features(df, col, windows=[4, 8, 12]):
     for window in windows:
         df[f'{col}_roll_mean_{window}'] = df[col].rolling(window=window).mean()
         df[f'{col}_roll_std_{window}'] = df[col].rolling(window=window).std()
+        # Rolling slope (linear trend within the window)
+        df[f'{col}_roll_slope_{window}'] = df[col].rolling(window=window).apply(
+            lambda x: np.nan if x.isnull().any() else np.polyfit(np.arange(len(x)), x, 1)[0]
+        )
     return df
 
 def add_technical_indicators(df, col):
@@ -34,6 +40,13 @@ def add_technical_indicators(df, col):
     
     # Weekly Returns
     df[f'{col}_return'] = df[col].pct_change()
+
+    # Exponential moving averages
+    df[f'{col}_ema_4'] = df[col].ewm(span=4, adjust=False).mean()
+    df[f'{col}_ema_12'] = df[col].ewm(span=12, adjust=False).mean()
+
+    # Moving average convergence (ema crossover)
+    df[f'{col}_ema_diff'] = df[f'{col}_ema_4'] - df[f'{col}_ema_12']
     
     return df
 
@@ -50,6 +63,27 @@ def add_spreads_and_ratios(df):
     if 'brent_price' in df.columns and 'gas_price' in df.columns:
         df['brent_gas_ratio'] = df['brent_price'] / df['gas_price']
         
+    return df
+
+
+def detrend_and_decompose(df, col='pp_price', period=52):
+    """Use STL decomposition to get trend, seasonal and resid components."""
+    if col not in df.columns:
+        return df
+    # STL expects no NaNs; drop temporarily then reindex
+    series = df[col].dropna()
+    if len(series) < period * 2:
+        # Not enough data for sensible decomposition
+        df[f'{col}_trend'] = np.nan
+        df[f'{col}_seasonal'] = np.nan
+        df[f'{col}_resid'] = np.nan
+        return df
+
+    stl = STL(series, period=period, robust=True)
+    res = stl.fit()
+    df.loc[series.index, f'{col}_trend'] = res.trend
+    df.loc[series.index, f'{col}_seasonal'] = res.seasonal
+    df.loc[series.index, f'{col}_resid'] = res.resid
     return df
 
 def main(args):
@@ -69,9 +103,9 @@ def main(args):
     if 'target' not in df.columns:
         print(f"Error: Target column not in {args.input_file}. Check preprocessing.py")
         sys.exit(1)
-        
+
     target = df[['target']]
-    # Features will be generated from the price columns
+    # Price columns (we will also create derived features from decomposed series)
     price_cols = [col for col in df.columns if col.endswith('_price')]
     
     # Initialize features dataframe
@@ -83,11 +117,21 @@ def main(args):
         # Make a temporary df for calculations to avoid fragmentation
         temp_df = pd.DataFrame(index=df.index)
         temp_df[col] = df[col] # Add the base price itself as a feature
-        
-        temp_df = add_lags(temp_df, col)
-        temp_df = add_rolling_features(temp_df, col)
+
+        # Decompose PP price for trend/seasonality/resid (do for pp_price only)
+        if col == 'pp_price':
+            df = detrend_and_decompose(df, col=col, period=52)
+            temp_df[f'{col}_trend'] = df[f'{col}_trend']
+            temp_df[f'{col}_seasonal'] = df[f'{col}_seasonal']
+            temp_df[f'{col}_resid'] = df[f'{col}_resid']
+
+        temp_df = add_lags(temp_df, col, lags=[1,2,3,4,8,13])
+        temp_df = add_rolling_features(temp_df, col, windows=[4,8,12,16])
         temp_df = add_technical_indicators(temp_df, col)
-        
+        # Add simple linear trend in short windows also
+        temp_df[f'{col}_diff_1'] = temp_df[col].diff(1)
+        temp_df[f'{col}_diff_2'] = temp_df[col].diff(2)
+
         # Add all newly generated features to the main features_df
         features_df = features_df.join(temp_df)
     

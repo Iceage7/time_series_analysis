@@ -4,4 +4,9 @@ scikit-learn
 matplotlib
 seaborn
 ta
+statsmodels
+scipy
+xgboost
+joblib
+imbalanced-learn
 

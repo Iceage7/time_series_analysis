@@ -1,97 +1,97 @@
 {
-    "avg_validation_f1": 0.10357142857142856,
-    "holdout_f1": 0.0,
-    "holdout_accuracy": 0.875,
+    "avg_validation_f1": 0.22704453441295547,
+    "holdout_f1": 0.3333333333333333,
+    "holdout_accuracy": 0.6666666666666666,
     "holdout_baseline_f1": 0.0,
-    "model_beat_baseline": false,
+    "model_beat_baseline": true,
     "holdout_confusion_matrix": [
         [
-            21,
-            0
+            14,
+            7
         ],
         [
-            3,
-            0
+            1,
+            2
         ]
     ],
     "holdout_classification_report": {
         "Down (0)": {
-            "precision": 0.875,
-            "recall": 1.0,
-            "f1-score": 0.9333333333333333,
+            "precision": 0.9333333333333333,
+            "recall": 0.6666666666666666,
+            "f1-score": 0.7777777777777778,
             "support": 21.0
         },
         "Up (1)": {
-            "precision": 0.0,
-            "recall": 0.0,
-            "f1-score": 0.0,
+            "precision": 0.2222222222222222,
+            "recall": 0.6666666666666666,
+            "f1-score": 0.3333333333333333,
             "support": 3.0
         },
-        "accuracy": 0.875,
+        "accuracy": 0.6666666666666666,
         "macro avg": {
-            "precision": 0.4375,
-            "recall": 0.5,
-            "f1-score": 0.4666666666666667,
+            "precision": 0.5777777777777777,
+            "recall": 0.6666666666666666,
+            "f1-score": 0.5555555555555556,
             "support": 24.0
         },
         "weighted avg": {
-            "precision": 0.765625,
-            "recall": 0.875,
-            "f1-score": 0.8166666666666668,
+            "precision": 0.8444444444444446,
+            "recall": 0.6666666666666666,
+            "f1-score": 0.7222222222222222,
             "support": 24.0
         }
     },
     "holdout_predictions": [
         0,
+        1,
         0,
         0,
         0,
+        1,
         0,
         0,
         0,
+        1,
+        1,
+        1,
+        1,
+        0,
+        1,
         0,
         0,
         0,
+        1,
         0,
         0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
+        1,
         0,
         0
     ],
     "holdout_proba_up": [
-        0.5,
-        0.48,
-        0.37,
-        0.4,
-        0.35,
-        0.48,
-        0.39,
-        0.48,
-        0.41,
-        0.49,
-        0.5,
-        0.45,
-        0.49,
-        0.46,
-        0.47,
-        0.33,
-        0.24,
-        0.31,
-        0.3,
-        0.3,
-        0.27,
-        0.31,
-        0.27,
-        0.25
+        0.4512771666049957,
+        0.7073011994361877,
+        0.10754425078630447,
+        0.46777409315109253,
+        0.3020731806755066,
+        0.8382349610328674,
+        0.051733069121837616,
+        0.20336197316646576,
+        0.04773087427020073,
+        0.6441329717636108,
+        0.9541844725608826,
+        0.6764652729034424,
+        0.9335324764251709,
+        0.3557244837284088,
+        0.9478015899658203,
+        0.010655210353434086,
+        0.16292782127857208,
+        0.2775782346725464,
+        0.7766065001487732,
+        0.20046022534370422,
+        0.17091748118400574,
+        0.7136496305465698,
+        0.1490785926580429,
+        0.010930880904197693
     ],
     "holdout_actuals": [
         0,
@@ -147,246 +147,267 @@
     ],
     "feature_importances": [
         [
-            "pp_price_roll_mean_12",
-            0.03935233990007632
-        ],
-        [
-            "pp_price_lag_8",
-            0.03139596170505836
-        ],
-        [
-            "gas_price_macd_signal",
-            0.02943221725812113
-        ],
-        [
-            "gas_price_lag_4",
-            0.028569562549622517
-        ],
-        [
-            "pp_price_roll_std_8",
-            0.027716749609774313
-        ],
-        [
-            "brent_price_roll_std_12",
-            0.027258680237009607
-        ],
-        [
-            "pp_brent_spread",
-            0.027050272319063366
-        ],
-        [
-            "brent_price_roll_std_8",
-            0.026633888608988184
-        ],
-        [
-            "pp_price_macd_signal",
-            0.02634381888962613
-        ],
-        [
-            "brent_price_return",
-            0.025489309814481616
-        ],
-        [
-            "pp_price_roll_mean_8",
-            0.024656577914004794
-        ],
-        [
-            "gas_price_roll_mean_12",
-            0.024240698990747708
-        ],
-        [
-            "gas_price",
-            0.024186451458617947
-        ],
-        [
-            "brent_price_lag_2",
-            0.024108586869368197
-        ],
-        [
-            "gas_price_roll_std_8",
-            0.023803443366542904
-        ],
-        [
-            "pp_price_lag_4",
-            0.023678697428574525
-        ],
-        [
-            "pp_gas_spread",
-            0.022041648172882358
-        ],
-        [
-            "brent_price_lag_4",
-            0.021963596319610996
-        ],
-        [
-            "pp_price_return",
-            0.021572115720827137
-        ],
-        [
-            "brent_price_rsi",
-            0.02129253593274231
-        ],
-        [
-            "brent_price_roll_std_4",
-            0.020884715988830776
-        ],
-        [
-            "brent_price_roll_mean_8",
-            0.019314758210035136
-        ],
-        [
-            "gas_price_roll_mean_8",
-            0.019174296392189046
-        ],
-        [
-            "gas_price_macd",
-            0.018947348374327433
-        ],
-        [
-            "brent_price_lag_8",
-            0.018379054866267237
-        ],
-        [
-            "brent_gas_ratio",
-            0.018284679326576434
-        ],
-        [
-            "pp_price_roll_std_12",
-            0.018188588893219764
-        ],
-        [
-            "gas_price_return",
-            0.018062885005053233
-        ],
-        [
-            "brent_price_macd",
-            0.017600248544129733
-        ],
-        [
-            "pp_brent_ratio",
-            0.017532021548923273
-        ],
-        [
-            "brent_price_roll_mean_12",
-            0.017413655672345492
-        ],
-        [
-            "brent_price_lag_1",
-            0.017380728989422844
-        ],
-        [
-            "gas_price_roll_std_4",
-            0.01736753679015687
-        ],
-        [
-            "pp_price_macd",
-            0.017000924699907143
-        ],
-        [
             "gas_price_rsi",
-            0.016864884426728368
-        ],
-        [
-            "gas_price_lag_1",
-            0.016849472821862835
-        ],
-        [
-            "brent_price_macd_signal",
-            0.015923592347081215
-        ],
-        [
-            "pp_price_rsi",
-            0.015711056994337138
+            0.06200835108757019
         ],
         [
             "gas_price_lag_2",
-            0.015522057315838863
+            0.060560837388038635
         ],
         [
-            "brent_price",
-            0.014686594884510743
-        ],
-        [
-            "pp_price_roll_std_4",
-            0.014506194417724634
-        ],
-        [
-            "pp_price",
-            0.0144640386329836
-        ],
-        [
-            "brent_price_roll_mean_4",
-            0.014332399168573236
-        ],
-        [
-            "gas_price_lag_8",
-            0.014185853508555429
-        ],
-        [
-            "gas_price_roll_mean_4",
-            0.014175681263075895
-        ],
-        [
-            "pp_price_roll_mean_4",
-            0.012763483925651766
-        ],
-        [
-            "pp_price_lag_2",
-            0.01238333670353308
-        ],
-        [
-            "gas_price_roll_std_12",
-            0.012194575342114461
+            "brent_price_lag_2",
+            0.05828004702925682
         ],
         [
             "pp_price_lag_1",
-            0.010865783638787867
+            0.054221343249082565
+        ],
+        [
+            "gas_price_lag_1",
+            0.05241391062736511
+        ],
+        [
+            "pp_price_roll_mean_12",
+            0.04846993088722229
+        ],
+        [
+            "brent_price_lag_4",
+            0.047330621629953384
+        ],
+        [
+            "gas_price_roll_std_4",
+            0.035457104444503784
+        ],
+        [
+            "pp_price_roll_mean_8",
+            0.033073220402002335
+        ],
+        [
+            "gas_price_lag_8",
+            0.031794898211956024
+        ],
+        [
+            "pp_price_lag_2",
+            0.030391111969947815
+        ],
+        [
+            "gas_price_roll_std_12",
+            0.02782750502228737
+        ],
+        [
+            "gas_price",
+            0.026400618255138397
+        ],
+        [
+            "pp_price_macd",
+            0.023546217009425163
+        ],
+        [
+            "brent_price_return",
+            0.023330507799983025
+        ],
+        [
+            "pp_price_rsi",
+            0.02262474037706852
+        ],
+        [
+            "gas_price_roll_mean_12",
+            0.022178402170538902
+        ],
+        [
+            "gas_price_lag_4",
+            0.019765565171837807
+        ],
+        [
+            "pp_price_lag_4",
+            0.019266655668616295
+        ],
+        [
+            "brent_price_roll_std_4",
+            0.01877039112150669
+        ],
+        [
+            "brent_price_lag_8",
+            0.018423430621623993
+        ],
+        [
+            "gas_price_roll_std_8",
+            0.01749432273209095
+        ],
+        [
+            "pp_price_roll_mean_4",
+            0.0166219063103199
+        ],
+        [
+            "pp_price",
+            0.015945788472890854
+        ],
+        [
+            "pp_price_macd_signal",
+            0.01524784043431282
+        ],
+        [
+            "brent_price_roll_mean_4",
+            0.014989854767918587
+        ],
+        [
+            "gas_price_roll_mean_8",
+            0.013629172928631306
+        ],
+        [
+            "gas_price_macd_signal",
+            0.013130170293152332
+        ],
+        [
+            "pp_price_lag_8",
+            0.012923456728458405
+        ],
+        [
+            "brent_price_roll_std_12",
+            0.012870819307863712
+        ],
+        [
+            "pp_brent_ratio",
+            0.012063423171639442
+        ],
+        [
+            "pp_price_roll_std_8",
+            0.012022373266518116
+        ],
+        [
+            "brent_price_roll_std_8",
+            0.011728933081030846
+        ],
+        [
+            "brent_price_lag_1",
+            0.011718730442225933
+        ],
+        [
+            "brent_price_rsi",
+            0.011055970564484596
+        ],
+        [
+            "pp_gas_spread",
+            0.010934555903077126
+        ],
+        [
+            "pp_price_return",
+            0.010932999663054943
+        ],
+        [
+            "gas_price_roll_mean_4",
+            0.008459503762423992
+        ],
+        [
+            "gas_price_return",
+            0.006303892936557531
+        ],
+        [
+            "brent_price_macd",
+            0.00610536802560091
+        ],
+        [
+            "pp_price_roll_std_4",
+            0.006087755784392357
+        ],
+        [
+            "pp_brent_spread",
+            0.005233217962086201
+        ],
+        [
+            "brent_gas_ratio",
+            0.004365414381027222
+        ],
+        [
+            "brent_price",
+            0.003959896042943001
+        ],
+        [
+            "pp_price_roll_std_12",
+            0.003828522516414523
+        ],
+        [
+            "gas_price_macd",
+            0.00307584460824728
+        ],
+        [
+            "brent_price_roll_mean_8",
+            0.0015592161798849702
+        ],
+        [
+            "brent_price_macd_signal",
+            0.0008644740446470678
+        ],
+        [
+            "brent_price_roll_mean_12",
+            0.0007111226441338658
         ],
         [
             "pp_price_bb_high_ind",
-            0.0027353423959838785
+            0.0
         ],
         [
             "pp_price_bb_low_ind",
-            0.001710038745823222
+            0.0
         ],
         [
             "brent_price_bb_high_ind",
-            0.0015358014844633608
-        ],
-        [
-            "gas_price_bb_high_ind",
-            0.0010693662704441276
+            0.0
         ],
         [
             "brent_price_bb_low_ind",
-            0.0009327390445892147
+            0.0
+        ],
+        [
+            "gas_price_bb_high_ind",
+            0.0
         ],
         [
             "gas_price_bb_low_ind",
-            0.0002691103002124225
+            0.0
         ]
     ],
     "model_params": {
-        "bootstrap": true,
-        "ccp_alpha": 0.0,
-        "class_weight": "balanced",
-        "criterion": "gini",
+        "objective": "binary:logistic",
+        "base_score": null,
+        "booster": null,
+        "callbacks": null,
+        "colsample_bylevel": null,
+        "colsample_bynode": null,
+        "colsample_bytree": null,
+        "device": null,
+        "early_stopping_rounds": null,
+        "enable_categorical": false,
+        "eval_metric": "logloss",
+        "feature_types": null,
+        "gamma": null,
+        "grow_policy": null,
+        "importance_type": null,
+        "interaction_constraints": null,
+        "learning_rate": null,
+        "max_bin": null,
+        "max_cat_threshold": null,
+        "max_cat_to_onehot": null,
+        "max_delta_step": null,
         "max_depth": null,
-        "max_features": "sqrt",
-        "max_leaf_nodes": null,
-        "max_samples": null,
-        "min_impurity_decrease": 0.0,
-        "min_samples_leaf": 1,
-        "min_samples_split": 2,
-        "min_weight_fraction_leaf": 0.0,
-        "monotonic_cst": null,
-        "n_estimators": 100,
+        "max_leaves": null,
+        "min_child_weight": null,
+        "missing": NaN,
+        "monotone_constraints": null,
+        "multi_strategy": null,
+        "n_estimators": 300,
         "n_jobs": null,
-        "oob_score": false,
+        "num_parallel_tree": null,
         "random_state": 42,
-        "verbose": 0,
-        "warm_start": false
+        "reg_alpha": null,
+        "reg_lambda": null,
+        "sampling_method": null,
+        "scale_pos_weight": 1.8181818181818181,
+        "subsample": null,
+        "tree_method": null,
+        "validate_parameters": null,
+        "verbosity": null,
+        "use_label_encoder": false
     },
     "training_boundaries": {
         "train_val_start": "2021-08-27",

@@ -8,6 +8,14 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import f1_score, accuracy_score, confusion_matrix, classification_report
 from sklearn.exceptions import NotFittedError
+import joblib
+
+# Prefer XGBoost if installed for stronger gradient boosting with imbalance handling
+try:
+    from xgboost import XGBClassifier
+    XGB_AVAILABLE = True
+except Exception:
+    XGB_AVAILABLE = False
 
 def create_baseline_preds(y_series):
     """
@@ -61,26 +69,49 @@ def main(args):
     # We use TimeSeriesSplit to respect temporal order.
     print("Running TimeSeriesSplit cross-validation...")
     tscv = TimeSeriesSplit(n_splits=args.n_splits)
-    model = RandomForestClassifier(n_estimators=100, random_state=42, class_weight='balanced')
-    
+
     val_f1_scores = []
+    # Choose model: prefer XGBoost with scale_pos_weight if available
+    # Compute scale_pos_weight from training labels
+    n_pos = (y_train_val == 1).sum()
+    n_neg = (y_train_val == 0).sum()
+    scale_pos_weight = 1.0
+    if n_pos > 0:
+        scale_pos_weight = float(n_neg) / float(n_pos)
+
+    if XGB_AVAILABLE:
+        print("XGBoost available: using XGBClassifier with scale_pos_weight for imbalance.")
+        base_model = XGBClassifier(n_estimators=200, use_label_encoder=False, eval_metric='logloss',
+                                   scale_pos_weight=scale_pos_weight, random_state=42)
+    else:
+        print("XGBoost not available: falling back to RandomForest with class_weight='balanced'.")
+        base_model = RandomForestClassifier(n_estimators=200, random_state=42, class_weight='balanced')
+
+    # CV loop (train a fresh model per fold)
     for fold, (train_index, val_index) in enumerate(tscv.split(X_train_val_scaled)):
         X_train, X_val = X_train_val_scaled[train_index], X_train_val_scaled[val_index]
         y_train, y_val = y_train_val.iloc[train_index], y_train_val.iloc[val_index]
-        
-        model.fit(X_train, y_train)
-        val_preds = model.predict(X_val)
+
+        m = base_model.__class__(**base_model.get_params())
+        m.fit(X_train, y_train)
+        val_preds = m.predict(X_val)
         fold_f1 = f1_score(y_val, val_preds)
         val_f1_scores.append(fold_f1)
         print(f"  Fold {fold+1}/{args.n_splits} - Validation F1: {fold_f1:.4f}")
-        
+
     avg_val_f1 = np.mean(val_f1_scores)
     print(f"Average Validation F1: {avg_val_f1:.4f}")
     
     # 5. Final Training
     # Train the model on the *entire* training/validation set.
     print("Training final model on all training/validation data...")
-    final_model = RandomForestClassifier(n_estimators=100, random_state=42, class_weight='balanced')
+    print("Training final model on all training/validation data...")
+    if XGB_AVAILABLE:
+        final_model = XGBClassifier(n_estimators=300, use_label_encoder=False, eval_metric='logloss',
+                                    scale_pos_weight=scale_pos_weight, random_state=42)
+    else:
+        final_model = RandomForestClassifier(n_estimators=300, random_state=42, class_weight='balanced')
+
     final_model.fit(X_train_val_scaled, y_train_val)
     
     # 6. Evaluate on Holdout Test Set
@@ -108,7 +139,11 @@ def main(args):
     try:
         importances = final_model.feature_importances_
         feature_names = X.columns
-        feature_importance_list = sorted(zip(feature_names, importances), key=lambda x: x[1], reverse=True)
+        # Ensure importances are plain python floats for JSON
+        feature_importance_list = sorted(
+            [(str(f), float(imp)) for f, imp in zip(feature_names, importances)],
+            key=lambda x: x[1], reverse=True
+        )
     except NotFittedError:
         print("Warning: Model not fitted, cannot get feature importances.")
         feature_importance_list = []
@@ -123,12 +158,12 @@ def main(args):
         'model_beat_baseline': test_f1 > baseline_f1,
         'holdout_confusion_matrix': test_cm.tolist(),
         'holdout_classification_report': test_report,
-        'holdout_predictions': test_preds.tolist(),
-        'holdout_proba_up': test_proba_up.tolist(),
-        'holdout_actuals': y_test.tolist(),
+        'holdout_predictions': np.asarray(test_preds).tolist(),
+        'holdout_proba_up': np.asarray(test_proba_up).astype(float).tolist(),
+        'holdout_actuals': np.asarray(y_test).astype(int).tolist(),
         'holdout_dates': y_test.index.strftime('%Y-%m-%d').tolist(),
         'feature_importances': feature_importance_list,
-        'model_params': final_model.get_params(),
+        'model_params': {k: (float(v) if isinstance(v, (np.floating, np.integer)) else v) for k, v in final_model.get_params().items()},
         'training_boundaries': {
             'train_val_start': X_train_val.index.min().strftime('%Y-%m-%d'),
             'train_val_end': X_train_val.index.max().strftime('%Y-%m-%d'),
@@ -137,9 +172,34 @@ def main(args):
         }
     }
     
+    # Sanitize results for JSON (convert numpy types)
+    def _sanitize(obj):
+        if isinstance(obj, dict):
+            return {str(k): _sanitize(v) for k, v in obj.items()}
+        if isinstance(obj, list):
+            return [_sanitize(v) for v in obj]
+        if isinstance(obj, tuple):
+            return tuple(_sanitize(v) for v in obj)
+        if isinstance(obj, np.ndarray):
+            return _sanitize(obj.tolist())
+        if isinstance(obj, (np.floating,)):
+            return float(obj)
+        if isinstance(obj, (np.integer,)):
+            return int(obj)
+        return obj
+
     with open(args.output_file, 'w') as f:
-        json.dump(results, f, indent=4)
-        
+        json.dump(_sanitize(results), f, indent=4)
+    # Save artifacts used by inference pipeline
+    print("Saving artifacts: scaler, model, feature names and mask...")
+    joblib.dump(scaler, 'scaler.pkl')
+    joblib.dump(final_model, 'final_model.pkl')
+    # Save feature names and a simple mask (no selection implemented here)
+    feature_names = np.array(X.columns)
+    feature_mask = np.ones(len(feature_names), dtype=bool)
+    joblib.dump(feature_names, 'feature_names.pkl')
+    joblib.dump(feature_mask, 'feature_mask.pkl')
+
     print("Training pipeline complete.")
 
 if __name__ == "__main__":
