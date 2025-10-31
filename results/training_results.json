@@ -1,0 +1,397 @@
+{
+    "avg_validation_f1": 0.10357142857142856,
+    "holdout_f1": 0.0,
+    "holdout_accuracy": 0.875,
+    "holdout_baseline_f1": 0.0,
+    "model_beat_baseline": false,
+    "holdout_confusion_matrix": [
+        [
+            21,
+            0
+        ],
+        [
+            3,
+            0
+        ]
+    ],
+    "holdout_classification_report": {
+        "Down (0)": {
+            "precision": 0.875,
+            "recall": 1.0,
+            "f1-score": 0.9333333333333333,
+            "support": 21.0
+        },
+        "Up (1)": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1-score": 0.0,
+            "support": 3.0
+        },
+        "accuracy": 0.875,
+        "macro avg": {
+            "precision": 0.4375,
+            "recall": 0.5,
+            "f1-score": 0.4666666666666667,
+            "support": 24.0
+        },
+        "weighted avg": {
+            "precision": 0.765625,
+            "recall": 0.875,
+            "f1-score": 0.8166666666666668,
+            "support": 24.0
+        }
+    },
+    "holdout_predictions": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+    ],
+    "holdout_proba_up": [
+        0.5,
+        0.48,
+        0.37,
+        0.4,
+        0.35,
+        0.48,
+        0.39,
+        0.48,
+        0.41,
+        0.49,
+        0.5,
+        0.45,
+        0.49,
+        0.46,
+        0.47,
+        0.33,
+        0.24,
+        0.31,
+        0.3,
+        0.3,
+        0.27,
+        0.31,
+        0.27,
+        0.25
+    ],
+    "holdout_actuals": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+    ],
+    "holdout_dates": [
+        "2025-03-21",
+        "2025-03-28",
+        "2025-04-04",
+        "2025-04-11",
+        "2025-04-18",
+        "2025-04-25",
+        "2025-05-02",
+        "2025-05-09",
+        "2025-05-16",
+        "2025-05-23",
+        "2025-05-30",
+        "2025-06-06",
+        "2025-06-13",
+        "2025-06-20",
+        "2025-06-27",
+        "2025-07-04",
+        "2025-07-11",
+        "2025-07-18",
+        "2025-07-25",
+        "2025-08-01",
+        "2025-08-08",
+        "2025-08-15",
+        "2025-08-22",
+        "2025-08-29"
+    ],
+    "feature_importances": [
+        [
+            "pp_price_roll_mean_12",
+            0.03935233990007632
+        ],
+        [
+            "pp_price_lag_8",
+            0.03139596170505836
+        ],
+        [
+            "gas_price_macd_signal",
+            0.02943221725812113
+        ],
+        [
+            "gas_price_lag_4",
+            0.028569562549622517
+        ],
+        [
+            "pp_price_roll_std_8",
+            0.027716749609774313
+        ],
+        [
+            "brent_price_roll_std_12",
+            0.027258680237009607
+        ],
+        [
+            "pp_brent_spread",
+            0.027050272319063366
+        ],
+        [
+            "brent_price_roll_std_8",
+            0.026633888608988184
+        ],
+        [
+            "pp_price_macd_signal",
+            0.02634381888962613
+        ],
+        [
+            "brent_price_return",
+            0.025489309814481616
+        ],
+        [
+            "pp_price_roll_mean_8",
+            0.024656577914004794
+        ],
+        [
+            "gas_price_roll_mean_12",
+            0.024240698990747708
+        ],
+        [
+            "gas_price",
+            0.024186451458617947
+        ],
+        [
+            "brent_price_lag_2",
+            0.024108586869368197
+        ],
+        [
+            "gas_price_roll_std_8",
+            0.023803443366542904
+        ],
+        [
+            "pp_price_lag_4",
+            0.023678697428574525
+        ],
+        [
+            "pp_gas_spread",
+            0.022041648172882358
+        ],
+        [
+            "brent_price_lag_4",
+            0.021963596319610996
+        ],
+        [
+            "pp_price_return",
+            0.021572115720827137
+        ],
+        [
+            "brent_price_rsi",
+            0.02129253593274231
+        ],
+        [
+            "brent_price_roll_std_4",
+            0.020884715988830776
+        ],
+        [
+            "brent_price_roll_mean_8",
+            0.019314758210035136
+        ],
+        [
+            "gas_price_roll_mean_8",
+            0.019174296392189046
+        ],
+        [
+            "gas_price_macd",
+            0.018947348374327433
+        ],
+        [
+            "brent_price_lag_8",
+            0.018379054866267237
+        ],
+        [
+            "brent_gas_ratio",
+            0.018284679326576434
+        ],
+        [
+            "pp_price_roll_std_12",
+            0.018188588893219764
+        ],
+        [
+            "gas_price_return",
+            0.018062885005053233
+        ],
+        [
+            "brent_price_macd",
+            0.017600248544129733
+        ],
+        [
+            "pp_brent_ratio",
+            0.017532021548923273
+        ],
+        [
+            "brent_price_roll_mean_12",
+            0.017413655672345492
+        ],
+        [
+            "brent_price_lag_1",
+            0.017380728989422844
+        ],
+        [
+            "gas_price_roll_std_4",
+            0.01736753679015687
+        ],
+        [
+            "pp_price_macd",
+            0.017000924699907143
+        ],
+        [
+            "gas_price_rsi",
+            0.016864884426728368
+        ],
+        [
+            "gas_price_lag_1",
+            0.016849472821862835
+        ],
+        [
+            "brent_price_macd_signal",
+            0.015923592347081215
+        ],
+        [
+            "pp_price_rsi",
+            0.015711056994337138
+        ],
+        [
+            "gas_price_lag_2",
+            0.015522057315838863
+        ],
+        [
+            "brent_price",
+            0.014686594884510743
+        ],
+        [
+            "pp_price_roll_std_4",
+            0.014506194417724634
+        ],
+        [
+            "pp_price",
+            0.0144640386329836
+        ],
+        [
+            "brent_price_roll_mean_4",
+            0.014332399168573236
+        ],
+        [
+            "gas_price_lag_8",
+            0.014185853508555429
+        ],
+        [
+            "gas_price_roll_mean_4",
+            0.014175681263075895
+        ],
+        [
+            "pp_price_roll_mean_4",
+            0.012763483925651766
+        ],
+        [
+            "pp_price_lag_2",
+            0.01238333670353308
+        ],
+        [
+            "gas_price_roll_std_12",
+            0.012194575342114461
+        ],
+        [
+            "pp_price_lag_1",
+            0.010865783638787867
+        ],
+        [
+            "pp_price_bb_high_ind",
+            0.0027353423959838785
+        ],
+        [
+            "pp_price_bb_low_ind",
+            0.001710038745823222
+        ],
+        [
+            "brent_price_bb_high_ind",
+            0.0015358014844633608
+        ],
+        [
+            "gas_price_bb_high_ind",
+            0.0010693662704441276
+        ],
+        [
+            "brent_price_bb_low_ind",
+            0.0009327390445892147
+        ],
+        [
+            "gas_price_bb_low_ind",
+            0.0002691103002124225
+        ]
+    ],
+    "model_params": {
+        "bootstrap": true,
+        "ccp_alpha": 0.0,
+        "class_weight": "balanced",
+        "criterion": "gini",
+        "max_depth": null,
+        "max_features": "sqrt",
+        "max_leaf_nodes": null,
+        "max_samples": null,
+        "min_impurity_decrease": 0.0,
+        "min_samples_leaf": 1,
+        "min_samples_split": 2,
+        "min_weight_fraction_leaf": 0.0,
+        "monotonic_cst": null,
+        "n_estimators": 100,
+        "n_jobs": null,
+        "oob_score": false,
+        "random_state": 42,
+        "verbose": 0,
+        "warm_start": false
+    },
+    "training_boundaries": {
+        "train_val_start": "2021-08-27",
+        "train_val_end": "2025-03-14",
+        "test_start": "2025-03-21",
+        "test_end": "2025-08-29"
+    }
+}
