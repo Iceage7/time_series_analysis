@@ -1,14 +1,16 @@
-# PP Price Direction Prediction
+# Polypropylene Price Direction Prediction
 
-A machine learning pipeline to predict the weekly direction (Up/Down) of Polypropylene (PP) prices.
+A machine learning pipeline to predict the weekly direction (Up/Down) of **Polypropylene (PP)** prices.  
+
+📄 [View the full report](https://drive.google.com/file/d/1VDxqP5-ebqvfkhgfP_4v_CqUiplkdWlr/view?usp=sharing)
 
 ## 1\. Installation
 
 Clone the repository and install the required dependencies.
 
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
+git clone https://github.com/Iceage7/time_series_analysis
+cd time_series_analysis
 pip install -r requirements.txt
 ```
 
