@@ -48,22 +48,30 @@ def add_spreads_and_ratios(df):
         df['brent_gas_ratio'] = df['brent_price'] / df['gas_price']
     return df
 
-def detrend_and_decompose(df, col='pp_price', period=52):
-    """Use STL decomposition to get trend, seasonal and residual components."""
-    if col not in df.columns:
-        return df
-    series = df[col].dropna()
-    if len(series) < period * 2:
-        df[f'{col}_trend'] = np.nan
-        df[f'{col}_seasonal'] = np.nan
-        df[f'{col}_resid'] = np.nan
-        return df
-    stl = STL(series, period=period, robust=True)
-    res = stl.fit()
-    df.loc[series.index, f'{col}_trend'] = res.trend
-    df.loc[series.index, f'{col}_seasonal'] = res.seasonal
-    df.loc[series.index, f'{col}_resid'] = res.resid
+
+def detrend_and_decompose(df, col='pp_price', period=52, window=50):
+    trend, seasonal, resid = [], [], []
+    for i in range(len(df)):
+        if i < window:
+            trend.append(np.nan)
+            seasonal.append(np.nan)
+            resid.append(np.nan)
+            continue
+        series = df[col].iloc[i-window:i]  # only past values
+        if series.isna().any():
+            trend.append(np.nan)
+            seasonal.append(np.nan)
+            resid.append(np.nan)
+            continue
+        res = STL(series, period=period, robust=True).fit()
+        trend.append(res.trend.iloc[-1])
+        seasonal.append(res.seasonal.iloc[-1])
+        resid.append(res.resid.iloc[-1])
+    df[f'{col}_trend'] = trend
+    df[f'{col}_seasonal'] = seasonal
+    df[f'{col}_resid'] = resid
     return df
+
 
 def main(args):
     """Main feature engineering pipeline."""
@@ -85,6 +93,8 @@ def main(args):
         temp_df = pd.DataFrame(index=df.index)
         temp_df[col] = df[col]
         if col == 'pp_price':
+            # pass
+            # lekage free 
             df = detrend_and_decompose(df, col=col, period=52)
             temp_df[f'{col}_trend'] = df[f'{col}_trend']
             temp_df[f'{col}_seasonal'] = df[f'{col}_seasonal']
