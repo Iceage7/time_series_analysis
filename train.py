@@ -114,6 +114,27 @@ def main(args):
     baseline_preds_test = baseline_preds_all.loc[y_test.index]
     baseline_f1 = f1_score(y_test, baseline_preds_test)
 
+    print("\n" + "="*50)
+    print("📊 HOLDOUT PERFORMANCE")
+    print("="*50)
+    print(classification_report(
+        y_test,
+        test_preds,
+        target_names=['Down (0)', 'Up (1)'],
+        digits=4
+    ))
+
+    print("Confusion Matrix:")
+    print(pd.DataFrame(
+        test_cm,
+        index=['Actual Down (0)', 'Actual Up (1)'],
+        columns=['Pred Down (0)', 'Pred Up (1)']
+    ))
+    print(f"\nBaseline (Persistence) F1: {baseline_f1:.4f}")
+    print(f"Average CV Validation F1 : {avg_val_f1:.4f}")
+    print(f"Model beats baseline?    : {'✅ Yes' if test_f1 > baseline_f1 else '❌ No'}")
+
+
     try:
         importances = final_model.feature_importances_
         feature_names = X.columns
