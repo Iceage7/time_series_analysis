@@ -7,8 +7,8 @@ A machine learning pipeline to predict the weekly direction (Up/Down) of Polypro
 Clone the repository and install the required dependencies.
 
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
+git clone https://github.com/Iceage7/time_series_analysis
+cd time_series_analysis
 pip install -r requirements.txt
 ```
 
