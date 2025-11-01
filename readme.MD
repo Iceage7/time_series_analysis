@@ -1,6 +1,8 @@
-# PP Price Direction Prediction
+# Polypropylene Price Direction Prediction
 
-A machine learning pipeline to predict the weekly direction (Up/Down) of Polypropylene (PP) prices.
+A machine learning pipeline to predict the weekly direction (Up/Down) of **Polypropylene (PP)** prices.  
+
+📄 [View the full report](https://drive.google.com/file/d/1VDxqP5-ebqvfkhgfP_4v_CqUiplkdWlr/view?usp=sharing)
 
 ## 1\. Installation
 
